@@ -1,12 +1,12 @@
 version: '3.8'
 services:
   
-  nginx:
+  nginx-proxy:
     image: nginx:stable-alpine
+    container_name: nginx-proxy
     ports:
-      #- "80:80" # TODO remove for we only want to listen on https port
-      #- "443:443" # https
-      - "8080:80"
+      - "80:80" # http
+      - "443:443" # https
     volumes:
       - ./certs:/etc/nginx/ssl/certs
       - ./private:/etc/nginx/ssl/private
