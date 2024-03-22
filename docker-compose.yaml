@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   
-  # https://hub.docker.com/_/nginx
   nginx:
     image: nginx:stable-alpine
     ports:
@@ -16,5 +15,6 @@ services:
     networks:
       - nginx_network
 
-network:
-  nginx_network: { }
+networks:
+  nginx_network: {}
+    #external: true
