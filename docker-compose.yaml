@@ -13,3 +13,8 @@ services:
       - ./private:/etc/nginx/ssl/private
       - ./.nginx/sites-available:/etc/nginx/sites-available/
       - ./.nginx/sites-enabled:/etc/nginx/sites-enabled/
+    networks:
+      - nginx_network
+
+network:
+  nginx_network: { }
