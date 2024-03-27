@@ -14,3 +14,4 @@ I can complete my home lab.
 4. [Install SSL certificate on Nginx](https://www.digicert.com/kb/csr-ssl-installation/nginx-openssl.htm)
 5. [Secure copy files from host to remote machine via ssh](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
 6. [Symbolic link](https://stackoverflow.com/questions/18089525/nginx-sites-enabled-sites-available-cannot-create-soft-link-between-config-fil)
+7. [Set up firewall on Ubuntu](https://ubuntu.com/server/docs/security-firewall).
