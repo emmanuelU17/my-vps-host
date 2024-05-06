@@ -1,3 +1,4 @@
-$certs/*
-#private/*
-#.env*
+certs/*
+private/*
+.env
+.env.*
