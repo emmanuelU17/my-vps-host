@@ -18,3 +18,4 @@ I can complete my home lab.
 8. [Copy directory or files from one user to another in the same machin](https://askubuntu.com/questions/551047/copying-files-from-one-user-to-another-in-a-single-machine)
 9. [Generate SSH key pair](https://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/javaservice/JCS/JCS_SSH/create_sshkey.html#section2)
 10. [Disable root account](https://www.tecmint.com/disable-root-login-in-linux/)
+11. [TLS config NGINX](https://nginx.org/en/docs/http/configuring_https_servers.html)
