@@ -1,20 +1,28 @@
-version: '3.8'
 services:
-  
   nginx-proxy:
     image: nginx:1.26.0-alpine
     container_name: nginx-proxy
     ports:
-      - "80:80" # http
-      - "443:443" # https
+      - "80:80"
+      - "443:443"
     volumes:
       - ./certs:/etc/nginx/ssl/certs
       - ./private:/etc/nginx/ssl/private
-      # - ./.nginx/sites-available:/etc/nginx/sites-available/
-      # - ./.nginx/sites-enabled:/etc/nginx/sites-enabled/
-      - ./.nginx/conf.g:/etc/nginx/conf.g
+      - ./.nginx/conf.d:/etc/nginx/conf.d
     networks:
-      - nginx_network
+      - sarre-network
+    depends_on:
+      - sarre-api
+
+  sarre-ui:
+    image: '<image-name>'
+    container_name: sarre-ui
+    ports:
+      - "4200:80"
+    networks:
+      - sarre-network
+    environment:
+      PORT: 4200
 
   mysql:
     image: "mysql:8.0"
@@ -22,7 +30,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - db_network
+      - db-network
     environment:
       MYSQL_ROOT_PASSWORD:  ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -36,26 +44,16 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
-  sarre-ui:
-    image: ""
-    container_name: sarre-ui
-    ports:
-      - "4200:4200"
-    environment:
-      PORT: 4200
-    networks:
-      - nginx_network
-
   sarre-api:
-    image: ""
+    image: '<image-name>'
     container_name: sarre-api
     env_file:
       - .env
     ports:
       - "1997:1997"
     networks:
-      - nginx_network
-      - db_network
+      - db-network
+      - sarre-network
     depends_on:
       mysql:
         condition: service_healthy
@@ -82,5 +80,7 @@ volumes:
   db-data: {}
 
 networks:
-  nginx_network: {}
-  db_network: {}
+  db-network:
+    name: db-network
+  sarre-network:
+    name: sarre-network
