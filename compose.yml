@@ -10,20 +10,19 @@ services:
     volumes:
       - ./certs:/etc/nginx/ssl/certs
       - ./private:/etc/nginx/ssl/private
-      - ./.nginx/sites-available:/etc/nginx/sites-available/
-      - ./.nginx/sites-enabled:/etc/nginx/sites-enabled/
+      # - ./.nginx/sites-available:/etc/nginx/sites-available/
+      # - ./.nginx/sites-enabled:/etc/nginx/sites-enabled/
+      - ./.nginx/conf.g:/etc/nginx/conf.g
     networks:
       - nginx_network
-      - sarre-ui-network
-      - sarre-api-network
 
-  services:
-  
   mysql:
     image: "mysql:8.0"
     container_name: mysql
     ports:
       - "3306:3306"
+    networks:
+      - db_network
     environment:
       MYSQL_ROOT_PASSWORD:  ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -45,7 +44,7 @@ services:
     environment:
       PORT: 4200
     networks:
-      - sarre-ui-network
+      - nginx_network
 
   sarre-api:
     image: ""
@@ -54,6 +53,9 @@ services:
       - .env
     ports:
       - "1997:1997"
+    networks:
+      - nginx_network
+      - db_network
     depends_on:
       mysql:
         condition: service_healthy
@@ -75,14 +77,10 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_PAYSTACK_SECRET_ID: ${AWS_PAYSTACK_SECRET_ID}
-    networks:
-      - sarre-api-network
-
 
 volumes:
   db-data: {}
 
 networks:
   nginx_network: {}
-  sarre-ui-network: {}
-  sarre-api-network: {}
+  db_network: {}
