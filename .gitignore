@@ -1,8 +1,1 @@
 .idea
-
-certs
-private
-conf.d
-
-.env
-.env.*

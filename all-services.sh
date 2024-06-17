@@ -1,1 +1,0 @@
-docker compose -f ./database/compose-db.yml -f ./capstone/compose-capstone.yml -f ./landscape/compose-landscape.yml -f compose-nginx.yml up -d
