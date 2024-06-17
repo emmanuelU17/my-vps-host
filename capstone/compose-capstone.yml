@@ -1,10 +1,11 @@
+include:
+  - ../database/compose-db.yml
+
 services:
   capstone-ui:
     image: 'emmanuelu17/capstone:latest'
     container_name: capstone-ui
     restart: always
-    env_file:
-      - ../.env
     ports:
       - ${CAPSTONE_UI_PORT}:80
     networks:
@@ -30,10 +31,10 @@ services:
       SERVER_PORT: ${CAPSTONE_API_PORT}
       API_PREFIX: 'api/v1/'
       SPRING_DATASOURCE_URL: ${CAPSTONE_DB_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      PAYSTACK_PUB_KEY: ''
-      PAYSTACK_SECRET_KEY: ''
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      PAYSTACK_PUB_KEY: 'paystack-pub-key'
+      PAYSTACK_SECRET_KEY: 'paystack-secret-key'
       CORS_UI_DOMAIN: ${CAPSTONE_CORS_UI_DOMAIN}
       AWS_BUCKET: 'aws-bucket'
       AWS_ACCESS_KEY_ID: 'aws-access-key-id'
