@@ -1,0 +1,47 @@
+services:
+  capstone-ui:
+    image: 'emmanuelu17/capstone:latest'
+    container_name: capstone-ui
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - ${CAPSTONE_UI_PORT}:80
+    networks:
+      - capstone-network
+
+  capstone-api:
+    image: 'emmanuelu17/capstone-api:latest'
+    container_name: capstone-api
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - ${CAPSTONE_API_PORT}:${CAPSTONE_API_PORT}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - db-network
+      - capstone-network
+    environment:
+      USER_PRINCIPAL: 'admin@admin.com'
+      USER_PASSWORD: 'password123'
+      SERVER_PORT: ${CAPSTONE_API_PORT}
+      API_PREFIX: 'api/v1/'
+      SPRING_DATASOURCE_URL: ${CAPSTONE_DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      PAYSTACK_PUB_KEY: ''
+      PAYSTACK_SECRET_KEY: ''
+      CORS_UI_DOMAIN: ${CAPSTONE_CORS_UI_DOMAIN}
+      AWS_BUCKET: 'aws-bucket'
+      AWS_ACCESS_KEY_ID: 'aws-access-key-id'
+      AWS_SECRET_ACCESS_KEY: 'aws-secret-access-key'
+      AWS_PAYSTACK_SECRET_ID: 'aws-paystack-secret-id'
+
+networks:
+  db-network:
+    name: db-network
+  capstone-network:
+    name: capstone-network

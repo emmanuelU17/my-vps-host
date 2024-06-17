@@ -1,6 +1,8 @@
-certs/*
-private/*
+.idea
+
+certs
+private
+conf.d
+
 .env
 .env.*
-
-.idea

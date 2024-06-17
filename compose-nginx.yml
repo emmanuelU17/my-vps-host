@@ -1,0 +1,26 @@
+services:
+  nginx-proxy:
+    image: nginx:1.26.0-alpine
+    container_name: nginx-proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    #volumes:
+      #- ./certs:/etc/nginx/ssl/certs
+      #- ./private:/etc/nginx/ssl/private
+      #- ./conf.d:/etc/nginx/conf.d
+    networks:
+      - capstone-network
+    depends_on:
+      - capstone-api
+
+  capstone:
+    extends:
+      file: common-services.yml
+      service: webapp
+
+networks:
+  capstone-network:
+    name: capstone-network
+  landscape-network:
+    name: landscape-network

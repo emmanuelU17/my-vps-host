@@ -1,0 +1,48 @@
+services:
+  landscape-ui:
+    image: 'emmanuelu17/landscape:latest'
+    container_name: landscape-ui
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - ${LANDSCAPE_UI_PORT}:80
+    networks:
+      - landscape-network
+
+  landscape-api:
+    image: 'emmanuelu17/landscape-api:latest'
+    container_name: landscape-api
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - ${LANDSCAPE_API_PORT}:80
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - db-network
+      - landscape-network
+    environment:
+      SERVER_PORT: ${LANDSCAPE_API_PORT}
+      API_PREFIX: 'api/v1/'
+      SPRING_DATASOURCE_URL: ${LANDSCAPE_DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      API_CORS_DOMAIN: ''
+      GOOGLE_CLIENT_ID: ''
+      GOOGLE_CLIENT_SECRET: ''
+      APPLICATION_LOG_WEBHOOK_DISCORD: ''
+      SPRING_MAIL_USERNAME: ''
+      SPRING_MAIL_PASSWORD: ''
+      SPRING_MAIL_OWNER: ''
+      APPLICATION_DOMAIN: ''
+      APPLICATION_DEVELOPER_EMAIL: ''
+      APPLICATION_DEVELOPER_DOMAIN: ''
+
+networks:
+  db-network:
+    name: db-network
+  landscape-network:
+    name: landscape-network
